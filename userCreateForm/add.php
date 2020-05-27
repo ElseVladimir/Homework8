@@ -20,9 +20,14 @@ if(empty($username && $surname && $department && $email)){
 }
 
 Teachers::writeTeacher($pdo, $username, $surname, $email, $department);
-$teachers = Teachers::getTeachers($pdo);
+
+$teachers = Teachers::getLastId($pdo);
+
+//выбирает последнего препода из таблицы и записывает его айди и айди предметов в связывающую таблицу
 foreach($values as $val){
-    Objects::writeObjectsToRelation($pdo,$teachers->getId(), );
+    foreach($teachers as $teacher){
+        Objects::writeObjectsToRelation($pdo,$teacher->getId(),$val);
+        }
 }
 
 header('location: index.php');

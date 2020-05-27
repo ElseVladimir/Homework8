@@ -89,9 +89,30 @@ class Teachers
         }
     }
 
-    static public function getTeachers(PDO $pdo){
+    static public function getTeachers(PDO $pdo)
+    {
         try {
-            $sql = 'SELECT * FROM teachers ORDER BY id';
+            $sql = 'SELECT * FROM teachers ORDER BY id DESC';
+            $statement = $pdo->prepare($sql);
+            $statement->execute();
+            $teachers = $statement->fetchAll();
+            $teachArr = [];
+            foreach ($teachers as $teacher) {
+                $teach = new self($teacher['name'], $teacher['surname'], $teacher['email'], $teacher['dep_id']);
+                $teach->setId($teacher['id']);
+                $teachArr[] = $teach;
+            }
+            return $teachArr;
+        } catch (Exception $exception) {
+            echo 'Error read teachers' . $exception->getCode() . ' ' . $exception->getMessage();
+            die();
+        }
+    }
+
+    //делает выборку последней записи, дублирует код :((((
+    static public function getLastId(PDO $pdo){
+        try {
+            $sql = 'SELECT * FROM teachers ORDER BY id DESC LIMIT 1';
             $statement = $pdo->prepare($sql);
             $statement->execute();
             $teachers = $statement->fetchAll();
