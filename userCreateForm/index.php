@@ -2,6 +2,7 @@
 require_once "../config/connect_db.php";
 require_once "../classes/Objects.php";
 require_once "../classes/Department.php";
+require_once "../classes/Objects.php";
 $objects = Objects::getObjects($pdo);
 $departments = Department::getDepartments($pdo);
 ?>
@@ -21,12 +22,12 @@ $departments = Department::getDepartments($pdo);
         <label>Предмет:<br><select multiple name="value[]">
             <?php
                 foreach($objects as $object): ?>
-            <option><?=$object->getTitle();?></option>
+            <option value="<?=$object->getId();?>"><?=$object->getTitle();?></option>
             <?php endforeach;?>
             </select></label><br>
         <label>Кафедра:<br><select name="department">
             <?php foreach ($departments as $department): ?>
-            <option><?=$department->getTitle();?></option>
+            <option value="<?=$department->getId();?>"><?=$department->getTitle();?></option>
             <?php endforeach;?>
         </select></label><br>
         <input name="email" placeholder="Эмеил"><br>

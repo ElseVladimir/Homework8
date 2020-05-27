@@ -46,4 +46,19 @@ class Objects
         }
     }
 
+    static public function writeObjectsToRelation(PDO $pdo, $teacherId,$objectId){
+        try{
+            $sql = 'INSERT INTO relation SET
+                id_teachers = :teacherId,
+                id_objects = :objectId';
+            $statement = $pdo->prepare($sql);
+            $statement->bindValue(':teacherId',$teacherId);
+            $statement->bindValue(':objectId',$objectId);
+            $statement->execute();
+        }catch (Exception $exception){
+            echo 'Error write to relation'.$exception->getCode().$exception->getCode();
+            die();
+        }
+    }
+
 }
