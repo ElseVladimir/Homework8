@@ -128,4 +128,18 @@ class Teachers
             die();
         }
     }
+
+    //показывает какой преподаватель на какой кафедре
+    static public function getDepartmentsToTeachers(PDO $pdo){
+        try{
+            $sql = 'SELECT t.name,t.surname,t.dep_id,dep.id,dep.title as depName FROM teachers AS t
+                    INNER JOIN departments AS dep ON t.dep_id = dep.id';
+            $statement = $pdo->prepare($sql);
+            $statement->execute();
+            $all = $statement->fetchAll();
+            return $all;
+        }catch (Exception $exception){
+            die('error read from db'.$exception->getCode().$exception->getMessage());
+        }
+    }
 }
